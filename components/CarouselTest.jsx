@@ -20,7 +20,7 @@ const ITEM_HEIGHT = CARD_HEIGHT + ITEM_MARGIN * 2;
 const VISIBLE_COUNT = 2;
 const CENTER_OFFSET = (VISIBLE_COUNT * ITEM_HEIGHT) / 2 - ITEM_HEIGHT / 2;
 
-export default function CarouselTest() {
+export default function CarouselTest({ onBack }) {
     const { boards, getRandom } = useStore();
     const [animating, setAnimating] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -109,6 +109,7 @@ export default function CarouselTest() {
     return (
         <View style={[styles.container, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
             <View style={[styles.mask, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
+                <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
                 <Animated.View style={[styles.carousel, animatedCarouselStyle]}>
                     {boardsLoop.map((board, index) => {
                         const isCentral = index >= boards.length && index < boards.length * 2;

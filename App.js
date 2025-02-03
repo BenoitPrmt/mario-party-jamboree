@@ -1,15 +1,19 @@
-import {useEffect} from 'react';
-import {ImageBackground, StatusBar, StyleSheet, View} from 'react-native';
-import {useStore} from "./store/store";
-import {useFonts} from "expo-font";
+import { useEffect, useState } from 'react';
+import {ImageBackground, StatusBar, StyleSheet, View, TouchableOpacity, Text, Image} from 'react-native';
+import { useStore } from "./store/store";
+import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
-import {BlurView} from "expo-blur";
+import { BlurView } from "expo-blur";
 import CarouselTest from "./components/CarouselTest";
+import MapsList from "./components/MapsList";
+import PressableButton from "./components/PressableButton";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const {boards, currentBoard, getRandom} = useStore();
+    const { boards, currentBoard, getRandom } = useStore();
+    const [showRandomSelection, setShowRandomSelection] = useState(false);
+    const [showMapsList, setShowMapsList] = useState(false);
 
     useEffect(() => {
         getRandom()
@@ -39,16 +43,20 @@ export default function App() {
         <View style={[styles.container]}>
             <ImageBackground source={currentBoard.boardView} resizeMode="cover" style={styles.image}>
                 <BlurView intensity={40} tint="light" style={styles.blurContainer}>
-                    <StatusBar style="auto"/>
-                    {/*{currentBoard && <BoardCard board={currentBoard} key={currentBoard.name}/>}*/}
-                    {/*<PressableButton variant={'secondary'} onPress={getRandom} title={'Carte aléatoire'}/>*/}
-
-                    <CarouselTest />
-
-                    {/*<ScrollView>*/}
-                    {/*    <Text style={styles.title}>Maps</Text>*/}
-                    {/*    {boards.map((board) => <BoardCard board={board} key={board.name}/>)}*/}
-                    {/*</ScrollView>*/}
+                    <StatusBar style="auto" />
+                    {showMapsList ? (
+                        <MapsList onBack={() => setShowMapsList(false)} />
+                    ) : (
+                        showRandomSelection ? (
+                            <CarouselTest onBack={() => setShowMapsList(false)} />
+                        ) : (
+                            <>
+                                <Image source={currentBoard.boardIcon} style={styles.tinyLogo}/>
+                                <PressableButton variant={"secondary"} title={"Choisir une carte"} onPress={() => setShowRandomSelection(true)} />
+                                <PressableButton variant={"primary"} title={"Voir les cartes"} onPress={() => setShowMapsList(true)} />
+                            </>
+                        )
+                    )}
                 </BlurView>
             </ImageBackground>
         </View>
@@ -64,6 +72,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
+        alignItems: 'center',
     },
     background: {
         flex: 1,
@@ -79,5 +88,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginVertical: 10,
         fontFamily: "ShinGoPro-Bold"
+    },
+    button: {
+        marginTop: 20,
+        padding: 10,
+        backgroundColor: 'blue',
+        borderRadius: 5,
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
     }
 });
