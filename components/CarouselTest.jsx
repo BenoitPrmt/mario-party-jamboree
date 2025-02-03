@@ -107,7 +107,7 @@ export default function CarouselTest() {
     }));
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
             <View style={[styles.mask, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
                 <Animated.View style={[styles.carousel, animatedCarouselStyle]}>
                     {boardsLoop.map((board, index) => {
@@ -133,7 +133,7 @@ export default function CarouselTest() {
                 <PressableButton
                     onPress={startAnimation}
                     variant={"secondary"}
-                    title={selectedIndex !== null ? "Relancer la sélection" : "Lancer la sélection"}
+                    title="Choisir une carte"
                 />
             )}
         </View>
@@ -142,7 +142,6 @@ export default function CarouselTest() {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: "center",
         marginTop: 20,
     },
     mask: {
