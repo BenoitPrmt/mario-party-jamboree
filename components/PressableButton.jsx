@@ -13,18 +13,23 @@ export default PressableButton;
 const styles = StyleSheet.create({
     button: {
         borderRadius: 50,
-        padding: 10
-    },
-    primary: {
-        backgroundColor: '#e2b325',
+        padding: 10,
         display: 'inline-block',
         paddingHorizontal: 20,
         paddingVertical: 5,
         fontSize: '19px',
+    },
+    primary: {
+        backgroundColor: '#e2b325',
         boxShadow: '0 0 0 2px #e2b325, inset 0 0 0 1px #ffe688'
+    },
+    secondary: {
+        backgroundColor: '#da0e51',
+        boxShadow: '0 0 0 2px #da0e51, inset 0 0 0 1px #ff678c'
     },
     buttonTitle: {
         fontWeight: 800,
         color: 'white',
+        fontFamily: "ShinGoPro-Bold"
     }
 });

@@ -11,7 +11,7 @@ const BoardCard = ({ board }) => {
                     <Text style={styles.cardTitle}>{board.name}</Text>
                 </View>
 
-                <Text>{board.description}</Text>
+                <Text style={styles.description}>{board.description}</Text>
             </View>
         </View>
     );
@@ -40,8 +40,9 @@ const styles = StyleSheet.create({
         maxWidth: '100%'
     },
     cardTitle: {
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
+        fontFamily: "ShinGoPro-Bold"
     },
     tinyLogo: {
         height: 20,
@@ -54,7 +55,9 @@ const styles = StyleSheet.create({
         gap: 10,
         marginBottom: 10
     },
-
+    description: {
+        fontFamily: "ShinGoPro-Light"
+    },
 
     container: {
         flex: 1,
