@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 
-const BoardCard = ({ board }) => {
+const BoardCard = ({board}) => {
     return (
         <View style={styles.card}>
             <Image source={board.boardView} alt={board.name} style={styles.cardImage}/>
@@ -27,10 +27,13 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
         backgroundColor: 'white',
-        margin: 10,
+        height: 280,
     },
     cardContainer: {
-       padding: 10
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 10
     },
     cardImage: {
         overflow: 'hidden',

@@ -1,11 +1,10 @@
 import {useEffect} from 'react';
-import {ImageBackground, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
-import BoardCard from "./components/board/BoardCard";
+import {ImageBackground, StatusBar, StyleSheet, View} from 'react-native';
 import {useStore} from "./store/store";
-import PressableButton from "./components/PressableButton";
 import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
 import {BlurView} from "expo-blur";
+import CarouselTest from "./components/CarouselTest";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,10 +38,13 @@ export default function App() {
     return (
         <View style={[styles.container]}>
             <ImageBackground source={currentBoard.boardView} resizeMode="cover" style={styles.image}>
-                <BlurView intensity={80} tint="light" style={styles.blurContainer}>
+                <BlurView intensity={40} tint="light" style={styles.blurContainer}>
                     <StatusBar style="auto"/>
-                    {currentBoard && <BoardCard board={currentBoard} key={currentBoard.name}/>}
-                    <PressableButton variant={'secondary'} onPress={getRandom} title={'Carte aléatoire'}/>
+                    {/*{currentBoard && <BoardCard board={currentBoard} key={currentBoard.name}/>}*/}
+                    {/*<PressableButton variant={'secondary'} onPress={getRandom} title={'Carte aléatoire'}/>*/}
+
+                    <CarouselTest />
+
                     {/*<ScrollView>*/}
                     {/*    <Text style={styles.title}>Maps</Text>*/}
                     {/*    {boards.map((board) => <BoardCard board={board} key={board.name}/>)}*/}

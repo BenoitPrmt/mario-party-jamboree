@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#da0e4f"
     },
     "ios": {
       "supportsTablet": true
@@ -32,8 +32,7 @@
             "./assets/fonts/AOTFShinGoProRegular.otf"
           ]
         }
-      ],
-      "expo-router"
+      ]
     ]
   }
 }
