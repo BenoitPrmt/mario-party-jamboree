@@ -1,15 +1,16 @@
 import {useEffect} from 'react';
-import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import BoardCard from "./components/board/BoardCard";
 import {useStore} from "./store/store";
 import PressableButton from "./components/PressableButton";
 import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
+import {BlurView} from "expo-blur";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const { boards, currentBoard, getRandom } = useStore();
+    const {boards, currentBoard, getRandom} = useStore();
 
     useEffect(() => {
         getRandom()
@@ -36,26 +37,41 @@ export default function App() {
     }
 
     return (
-        <View style={styles.container}>
-            <StatusBar style="auto"/>
-            {currentBoard && <BoardCard board={currentBoard} key={currentBoard.name}/>}
-            <PressableButton variant={'secondary'} onPress={getRandom} title={'Carte aléatoire'} />
-            <Text style={styles.title}>Maps</Text>
-            <ScrollView>
-                {boards.map((board) => <BoardCard board={board} key={board.name}/>)}
-            </ScrollView>
+        <View style={[styles.container]}>
+            <ImageBackground source={currentBoard.boardView} resizeMode="cover" style={styles.image}>
+                <BlurView intensity={80} tint="light" style={styles.blurContainer}>
+                    <StatusBar style="auto"/>
+                    {currentBoard && <BoardCard board={currentBoard} key={currentBoard.name}/>}
+                    <PressableButton variant={'secondary'} onPress={getRandom} title={'Carte aléatoire'}/>
+                    {/*<ScrollView>*/}
+                    {/*    <Text style={styles.title}>Maps</Text>*/}
+                    {/*    {boards.map((board) => <BoardCard board={board} key={board.name}/>)}*/}
+                    {/*</ScrollView>*/}
+                </BlurView>
+            </ImageBackground>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    blurContainer: {
+        flex: 1,
+        height: '100%',
+        width: '100%',
+        padding: 30,
+        textAlign: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+    },
+    background: {
+        flex: 1,
+        flexWrap: 'wrap',
+        ...StyleSheet.absoluteFill,
+    },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 50,
-        marginBottom: 20,
     },
     title: {
         fontSize: 20,

@@ -13,11 +13,12 @@ export default PressableButton;
 const styles = StyleSheet.create({
     button: {
         borderRadius: 50,
-        padding: 10,
+        margin: 10,
         display: 'inline-block',
         paddingHorizontal: 20,
         paddingVertical: 5,
         fontSize: '19px',
+        alignItems: 'center'
     },
     primary: {
         backgroundColor: '#e2b325',
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     },
     buttonTitle: {
         fontWeight: 800,
+        fontSize: 18,
         color: 'white',
         fontFamily: "ShinGoPro-Bold"
     }

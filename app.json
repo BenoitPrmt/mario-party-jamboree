@@ -28,9 +28,12 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/AOTFShinGoProRegular.otf"]
+          "fonts": [
+            "./assets/fonts/AOTFShinGoProRegular.otf"
+          ]
         }
-      ]
+      ],
+      "expo-router"
     ]
   }
 }
