@@ -12,6 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import PressableButton from "./PressableButton";
 import * as Haptics from 'expo-haptics';
+import {ImpactFeedbackStyle} from "expo-haptics";
 
 
 const CARD_HEIGHT = 280;
@@ -80,13 +81,15 @@ export default function CarouselTest({ onBack }) {
             targetOffset,
             {
                 duration,
-                easing: Easing.out(Easing.cubic),
+                easing: Easing.out(Easing.back(1)),
             },
             () => {
                 translateY.value = initialOffset - finalIndex * ITEM_HEIGHT;
                 runOnJS(setSelectedIndex)(finalIndex);
                 runOnJS(getRandom)();
-                runOnJS(triggerHapticFeedback)();
+                // runOnJS(triggerHapticFeedback)();
+                // TODO : Modifier ça pour que la fonction triggerHapticFeedback
+                runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
                 selectedScale.value = withTiming(
                     1.1,
                     { duration: 500 },

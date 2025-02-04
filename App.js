@@ -43,8 +43,7 @@ export default function App() {
     return (
         <View style={[styles.container]}>
             <LinearGradient
-                // Background Linear Gradient
-                colors={['#da0e51', '#fb6086', 'white']}
+                colors={['#da0e51', '#fa4f79', '#fb6086']}
                 style={styles.background}
             />
             {/*<ImageBackground source={currentBoard.boardView} resizeMode="cover" style={styles.image}>*/}
@@ -117,7 +116,8 @@ const styles = StyleSheet.create({
         width: 186,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 30
     },
 
     background: {
@@ -125,6 +125,6 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         top: 0,
-        height: Dimensions.get("window").height / 2,
+        height: Dimensions.get("window").height,
     },
 });
