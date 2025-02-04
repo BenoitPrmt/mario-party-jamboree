@@ -8,6 +8,7 @@ import CarouselTest from "./components/CarouselTest";
 import MapsList from "./components/MapsList";
 import PressableButton from "./components/PressableButton";
 import { LinearGradient } from 'expo-linear-gradient';
+import {Audio} from "expo-av";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,6 +30,26 @@ export default function App() {
         'ShinGoPro-Bold': require('./assets/fonts/AOTFShinGoProBold.otf'),
         'SuperMario256': require('./assets/fonts/SuperMario256.ttf'),
     });
+
+    useEffect(() => {
+        let sound: Audio.Sound;
+
+        async function playSound() {
+            const { sound: newSound } = await Audio.Sound.createAsync(
+                require("./assets/sounds/open.mp3")
+            );
+            sound = newSound;
+            await sound.playAsync();
+        }
+
+        playSound();
+
+        return () => {
+            if (sound) {
+                sound.unloadAsync();
+            }
+        };
+    }, []);
 
     useEffect(() => {
         if (loaded || error) {

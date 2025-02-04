@@ -1,8 +1,32 @@
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import {useEffect, useState} from "react";
+import {Audio} from "expo-av";
 
 const PressableButton = ({ variant, onPress, title }) => {
+    const [sound, setSound] = useState();
+
+    async function playSound() {
+        const { sound } = await Audio.Sound.createAsync( require('../assets/sounds/button.mp3')
+        );
+        setSound(sound);
+        await sound.playAsync();
+    }
+
+    useEffect(() => {
+        return sound
+            ? () => {
+                sound.unloadAsync();
+            }
+            : undefined;
+    }, [sound]);
+
+    const handlePress = () => {
+        playSound();
+        onPress();
+    }
+
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.button, styles[variant]]}>
+        <TouchableOpacity onPress={handlePress} style={[styles.button, styles[variant]]}>
             <Text style={styles.buttonTitle}>{title}</Text>
         </TouchableOpacity>
     );
