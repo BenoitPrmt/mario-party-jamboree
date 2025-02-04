@@ -1,18 +1,24 @@
-import {Image, StyleSheet, Text, View} from "react-native";
+import {Image, ImageBackground, StyleSheet, Text, View} from "react-native";
+import {BlurView} from "expo-blur";
 
 const BoardCard = ({board}) => {
     return (
         <View style={styles.card}>
             <Image source={board.boardView} alt={board.name} style={styles.cardImage}/>
 
-            <View style={styles.cardContainer}>
-                <View style={styles.row}>
-                    <Image source={board.boardIcon} alt={board.name} style={styles.tinyLogo}/>
-                    <Text style={styles.cardTitle}>{board.name}</Text>
-                </View>
+            <ImageBackground source={board.boardView} resizeMode="cover" style={styles.image}>
+                <BlurView intensity={100} tint="light" style={styles.blurContainer}
+                          experimentalBlurMethod="dimezisBlurView">
+                    <View style={styles.cardContainer}>
+                        <View style={styles.row}>
+                            <Image source={board.boardIcon} alt={board.name} style={styles.tinyLogo}/>
+                            <Text style={styles.cardTitle}>{board.name}</Text>
+                        </View>
 
-                <Text style={styles.description}>{board.description}</Text>
-            </View>
+                        <Text style={styles.description}>{board.description}</Text>
+                    </View>
+                </BlurView>
+            </ImageBackground>
         </View>
     );
 };
@@ -27,13 +33,14 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
         backgroundColor: 'white',
-        height: 280,
+        height: 300,
     },
     cardContainer: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: 10
+        justifyContent: 'space-around',
+        padding: 10,
+        height: 100
     },
     cardImage: {
         overflow: 'hidden',
