@@ -19,9 +19,10 @@ const ITEM_MARGIN = 10;
 const ITEM_HEIGHT = CARD_HEIGHT + ITEM_MARGIN * 2;
 const VISIBLE_COUNT = 2;
 const CENTER_OFFSET = (VISIBLE_COUNT * ITEM_HEIGHT) / 2 - ITEM_HEIGHT / 2;
+const INITIAL_CYCLE = 3;
 
-export default function CarouselTest({ onBack }) {
-    const { boards, getRandom } = useStore();
+export default function CarouselTest({onBack}) {
+    const {boards, setCurrentBoard} = useStore();
     const [animating, setAnimating] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -49,8 +50,12 @@ export default function CarouselTest({ onBack }) {
     const selectedScale = useSharedValue(1);
     const lastHapticIndex = useRef(null);
 
-    const triggerHapticFeedback = () => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    const initialIndex = boards.length * INITIAL_CYCLE;
+
+    const carouselRef = useRef(null);
+
+    const triggerHapticFeedback = async () => {
+        await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     };
 
     useAnimatedReaction(
@@ -75,6 +80,16 @@ export default function CarouselTest({ onBack }) {
         const duration = 2500 + Math.floor(Math.random() * 1000);
         const cycles = 3;
         const targetOffset = initialOffset - (cycles * cycleHeight + finalIndex * ITEM_HEIGHT);
+        const targetIndex = initialIndex + cycles * boards.length + finalIndex;
+
+        console.log(targetIndex, boardsLoop[targetIndex]);
+
+        if (carouselRef.current) {
+            carouselRef.current.scrollToIndex({
+                index: targetIndex,
+                animated: true,
+            }, false);
+        }
 
         translateY.value = withTiming(
             targetOffset,
@@ -85,11 +100,11 @@ export default function CarouselTest({ onBack }) {
             () => {
                 translateY.value = initialOffset - finalIndex * ITEM_HEIGHT;
                 runOnJS(setSelectedIndex)(finalIndex);
-                runOnJS(getRandom)();
+                runOnJS(setCurrentBoard)(finalIndex);
                 runOnJS(triggerHapticFeedback)();
                 selectedScale.value = withTiming(
                     1.1,
-                    { duration: 500 },
+                    {duration: 500},
                     () => {
                         runOnJS(setAnimating)(false);
                     }
@@ -99,36 +114,43 @@ export default function CarouselTest({ onBack }) {
     };
 
     const animatedCarouselStyle = useAnimatedStyle(() => ({
-        transform: [{ translateY: translateY.value }],
+        transform: [{translateY: translateY.value}],
     }));
 
     const animatedScaleStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: selectedScale.value }],
+        transform: [{scale: selectedScale.value}],
     }));
 
+
     return (
-        <View style={[styles.container, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
-            <View style={[styles.mask, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
-                <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
-                <Animated.View style={[styles.carousel, animatedCarouselStyle]}>
-                    {boardsLoop.map((board, index) => {
+        <View style={[styles.container, {height: CARD_HEIGHT * VISIBLE_COUNT}]}>
+            <View style={[styles.mask, {height: CARD_HEIGHT * VISIBLE_COUNT}]}>
+                <PressableButton variant={"primary"} title={"Retour"} onPress={onBack}/>
+                <Animated.FlatList
+                    // style={[styles.carousel, animatedCarouselStyle]}
+                    ref={carouselRef}
+                    data={boardsLoop}
+                    scrollEnabled={false}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(item, index) => `${item.name}-${index}`}
+                    onScrollToIndexFailed={(error) => console.log(error)}
+                    renderItem={({item, index}) => {
                         const isCentral = index >= boards.length && index < boards.length * 2;
                         const isSelected = isCentral && selectedIndex !== null && index - boards.length === selectedIndex;
 
                         return isSelected ? (
                             <Animated.View
-                                key={`${board.id}-${index}`}
+                                key={`${item.id}-${index}`}
                                 style={[styles.item, animatedScaleStyle, styles.selectedItem]}
                             >
-                                <BoardCard board={board} />
+                                <BoardCard board={item}/>
                             </Animated.View>
                         ) : (
-                            <View key={`${board.id}-${index}`} style={styles.item}>
-                                <BoardCard board={board} />
+                            <View key={`${item.id}-${index}`} style={styles.item}>
+                                <BoardCard board={item}/>
                             </View>
                         );
-                    })}
-                </Animated.View>
+                    }}/>
             </View>
             {!animating && (
                 <PressableButton
@@ -148,7 +170,9 @@ const styles = StyleSheet.create({
     mask: {
         overflow: "visible",
     },
-    carousel: {},
+    carousel: {
+        borderWidth: 4
+    },
     item: {
         height: CARD_HEIGHT,
         justifyContent: "center",

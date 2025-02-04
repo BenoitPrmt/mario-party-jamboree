@@ -1,8 +1,15 @@
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import * as Haptics from 'expo-haptics';
 
 const PressableButton = ({ variant, onPress, title }) => {
+
+    const handlePress = async () => {
+        await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        onPress();
+    }
+
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.button, styles[variant]]}>
+        <TouchableOpacity onPress={handlePress} style={[styles.button, styles[variant]]}>
             <Text style={styles.buttonTitle}>{title}</Text>
         </TouchableOpacity>
     );

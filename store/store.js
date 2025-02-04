@@ -5,5 +5,6 @@ import {selectRandom} from "../utils/selectRandom";
 export const useStore = create((set) => ({
     boards: BOARD_LIST,
     currentBoard: null,
-    getRandom: () => set(() => ({ currentBoard: selectRandom(BOARD_LIST) })),
+    getRandom: () => set((state) => ({ currentBoard: selectRandom(state.boards) })),
+    setCurrentBoard: (index) => set((state) => ({ currentBoard: state.boards[index] })),
 }));
