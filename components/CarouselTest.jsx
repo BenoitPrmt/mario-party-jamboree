@@ -1,6 +1,6 @@
-import React, {useRef, useState} from "react";
-import {StyleSheet, View} from "react-native";
-import {useStore} from "../store/store";
+import React, { useRef, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { useStore } from "../store/store";
 import BoardCard from "./board/BoardCard";
 import Animated, {
     Easing,
@@ -12,40 +12,18 @@ import Animated, {
 } from "react-native-reanimated";
 import PressableButton from "./PressableButton";
 import * as Haptics from 'expo-haptics';
-import {ImpactFeedbackStyle} from "expo-haptics";
 
-
-const CARD_HEIGHT = 280;
+const CARD_HEIGHT = 300;
 const ITEM_MARGIN = 10;
 const ITEM_HEIGHT = CARD_HEIGHT + ITEM_MARGIN * 2;
 const VISIBLE_COUNT = 2;
-const CENTER_OFFSET = (VISIBLE_COUNT * ITEM_HEIGHT) / 2 - ITEM_HEIGHT / 2;
 
 export default function CarouselTest({ onBack }) {
-    const { boards, getRandom } = useStore();
+    const { boards, setCurrentBoard } = useStore();
     const [animating, setAnimating] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
 
-    const boardsLoop = [
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-        ...boards,
-    ];
-    const cycleHeight = boards.length * ITEM_HEIGHT;
-    const initialOffset = CENTER_OFFSET - boards.length * ITEM_HEIGHT;
-    const translateY = useSharedValue(initialOffset);
+    const translateY = useSharedValue(0);
 
     const selectedScale = useSharedValue(1);
     const lastHapticIndex = useRef(null);
@@ -56,7 +34,7 @@ export default function CarouselTest({ onBack }) {
 
     useAnimatedReaction(
         () => {
-            return Math.floor((initialOffset - translateY.value) / ITEM_HEIGHT);
+            return Math.floor(-translateY.value / ITEM_HEIGHT) % boards.length;
         },
         (currentIndex, previousIndex) => {
             if (currentIndex !== previousIndex && currentIndex !== lastHapticIndex.current) {
@@ -75,7 +53,7 @@ export default function CarouselTest({ onBack }) {
         const finalIndex = Math.floor(Math.random() * boards.length);
         const duration = 2500 + Math.floor(Math.random() * 1000);
         const cycles = 3;
-        const targetOffset = initialOffset - (cycles * cycleHeight + finalIndex * ITEM_HEIGHT);
+        const targetOffset = -((cycles * boards.length + finalIndex) * ITEM_HEIGHT);
 
         translateY.value = withTiming(
             targetOffset,
@@ -84,11 +62,9 @@ export default function CarouselTest({ onBack }) {
                 easing: Easing.out(Easing.back(1)),
             },
             () => {
-                translateY.value = initialOffset - finalIndex * ITEM_HEIGHT;
+                translateY.value = -(finalIndex * ITEM_HEIGHT);
                 runOnJS(setSelectedIndex)(finalIndex);
-                runOnJS(getRandom)();
-                // runOnJS(triggerHapticFeedback)();
-                // TODO : Modifier ça pour que la fonction triggerHapticFeedback
+                runOnJS(setCurrentBoard)(finalIndex);
                 runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
                 selectedScale.value = withTiming(
                     1.1,
@@ -102,46 +78,25 @@ export default function CarouselTest({ onBack }) {
     };
 
     const animatedCarouselStyle = useAnimatedStyle(() => ({
-        transform: [{ translateY: translateY.value }],
-    }));
-
-    const animatedScaleStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: selectedScale.value }],
+        transform: [{ translateY: translateY.value % (boards.length * ITEM_HEIGHT) }],
     }));
 
     return (
-        <View style={[styles.container, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
-            <View style={[styles.mask, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
+        <View style={[styles.container]}>
+            <View style={styles.mask}>
                 <Animated.View style={[styles.carousel, animatedCarouselStyle]}>
-                    {boardsLoop.map((board, index) => {
-                        const isCentral = index >= boards.length && index < boards.length * 2;
-                        const isSelected = isCentral && selectedIndex !== null && index - boards.length === selectedIndex;
-
-                        return isSelected ? (
-                            <Animated.View
-                                key={`${board.id}-${index}`}
-                                style={[styles.item, animatedScaleStyle, styles.selectedItem]}
-                            >
-                                <BoardCard board={board} />
-                            </Animated.View>
-                        ) : (
-                            <View key={`${board.id}-${index}`} style={styles.item}>
-                                <BoardCard board={board} />
-                            </View>
-                        );
-                    })}
+                    {boards.map((board, index) => (
+                        <View key={board.id} style={selectedIndex === index ? [styles.item, styles.selectedItem] : styles.item}>
+                            <BoardCard board={board} />
+                        </View>
+                    ))}
                 </Animated.View>
             </View>
-            {!animating && (
-                <>
-                    <PressableButton
-                        onPress={startAnimation}
-                        variant={"secondary"}
-                        title="Choisir une carte"
-                    />
-                    <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
-                </>
-            )}
+
+            <View style={{ opacity: animating ? 0 : 1, marginTop: 10 }}>
+                <PressableButton onPress={startAnimation} variant={"secondary"} title="Choisir une carte" />
+                <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
+            </View>
         </View>
     );
 }
@@ -151,7 +106,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     mask: {
-        overflow: "visible",
+        overflow: "hidden",
+        borderRadius: 10,
+        height: CARD_HEIGHT * VISIBLE_COUNT,
     },
     carousel: {},
     item: {
@@ -166,5 +123,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
         zIndex: 999,
+    },
+    image: {
+        width: "100%",
+        height: "100%",
+        position: "absolute",
     },
 });

@@ -43,7 +43,7 @@ export default function App() {
     return (
         <View style={[styles.container]}>
             <LinearGradient
-                colors={['#da0e51', '#fa4f79', '#fb6086']}
+                colors={['#da0e51', '#fa4f79', '#fb6086', '#f6a0b5']}
                 style={styles.background}
             />
             {/*<ImageBackground source={currentBoard.boardView} resizeMode="cover" style={styles.image}>*/}
