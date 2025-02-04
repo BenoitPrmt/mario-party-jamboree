@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import Animated, { FadeInDown, FadeOutUp, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useStore } from "../store/store";
 import BoardCard from "./board/BoardCard";
@@ -19,21 +19,23 @@ const MapsList = ({ onBack }) => {
     };
 
     return (
-        <ScrollView style={{ borderRadius: 10 }}>
+        <View style={{ borderRadius: 10, paddingTop: 30 }}>
             <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
-            {selectedMap ? (
-                <Animated.View style={[styles.container, { transform: [{ scale: scale.value }] }]}>
-                    <BoardCard board={selectedMap} />
-                </Animated.View>
-            ) : (
-                boards.map((board) => (
-                        <Animated.View entering={FadeInDown} exiting={FadeOutUp} key={board.name} style={{ marginBottom: 20 }} onPress={() => handlePress(board)}>
-                            <BoardCard board={board} onPress={() => handlePress(board)} scale={scale} />
-                        </Animated.View>
-                    ))
-            )}
+            <ScrollView style={{ borderRadius: 10 }} showsVerticalScrollIndicator={false}>
+                {selectedMap ? (
+                    <Animated.View style={[styles.container, { transform: [{ scale: scale.value }] }]}>
+                        <BoardCard board={selectedMap} />
+                    </Animated.View>
+                ) : (
+                    boards.map((board) => (
+                            <Animated.View entering={FadeInDown} exiting={FadeOutUp} key={board.name} style={{ marginBottom: 20 }} onPress={() => handlePress(board)}>
+                                <BoardCard board={board} onPress={() => handlePress(board)} scale={scale} />
+                            </Animated.View>
+                        ))
+                )}
 
-        </ScrollView>
+            </ScrollView>
+        </View>
     );
 };
 

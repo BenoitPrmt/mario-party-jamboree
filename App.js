@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
-import {ImageBackground, StatusBar, StyleSheet, View, TouchableOpacity, Text, Image} from 'react-native';
-import { useStore } from "./store/store";
-import { useFonts } from "expo-font";
+import {useEffect, useState} from 'react';
+import {ImageBackground, StatusBar, StyleSheet, View, Image, Dimensions} from 'react-native';
+import {useStore} from "./store/store";
+import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
-import { BlurView } from "expo-blur";
+import {BlurView} from "expo-blur";
 import CarouselTest from "./components/CarouselTest";
 import MapsList from "./components/MapsList";
 import PressableButton from "./components/PressableButton";
+import { LinearGradient } from 'expo-linear-gradient';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const { boards, currentBoard, getRandom } = useStore();
+    const {boards, currentBoard, getRandom} = useStore();
     const [showRandomSelection, setShowRandomSelection] = useState(false);
     const [showMapsList, setShowMapsList] = useState(false);
 
@@ -41,24 +42,32 @@ export default function App() {
 
     return (
         <View style={[styles.container]}>
-            <ImageBackground source={currentBoard.boardView} resizeMode="cover" style={styles.image}>
-                <BlurView intensity={40} tint="light" style={styles.blurContainer}>
-                    <StatusBar style="auto" />
-                    {showMapsList ? (
-                        <MapsList onBack={() => setShowMapsList(false)} />
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#da0e51', '#fb6086', 'white']}
+                style={styles.background}
+            />
+            {/*<ImageBackground source={currentBoard.boardView} resizeMode="cover" style={styles.image}>*/}
+            <BlurView intensity={40} tint="light" style={styles.blurContainer}
+                      experimentalBlurMethod="dimezisBlurView">
+                <StatusBar style="auto"/>
+                {showMapsList ? (
+                    <MapsList onBack={() => setShowMapsList(false)}/>
+                ) : (
+                    showRandomSelection ? (
+                        <CarouselTest onBack={() => setShowRandomSelection(false)}/>
                     ) : (
-                        showRandomSelection ? (
-                            <CarouselTest onBack={() => setShowMapsList(false)} />
-                        ) : (
-                            <>
-                                <Image source={currentBoard.boardIcon} style={styles.tinyLogo}/>
-                                <PressableButton variant={"secondary"} title={"Choisir une carte"} onPress={() => setShowRandomSelection(true)} />
-                                <PressableButton variant={"primary"} title={"Voir les cartes"} onPress={() => setShowMapsList(true)} />
-                            </>
-                        )
-                    )}
-                </BlurView>
-            </ImageBackground>
+                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Image source={require('./assets/game-logo.png')} style={styles.tinyLogo}/>
+                            <PressableButton variant={"secondary"} title={"Choisir une carte"}
+                                             onPress={() => setShowRandomSelection(true)}/>
+                            <PressableButton variant={"primary"} title={"Voir les cartes"}
+                                             onPress={() => setShowMapsList(true)}/>
+                        </View>
+                    )
+                )}
+            </BlurView>
+            {/*</ImageBackground>*/}
         </View>
     );
 }
@@ -74,11 +83,11 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         alignItems: 'center',
     },
-    background: {
-        flex: 1,
-        flexWrap: 'wrap',
-        ...StyleSheet.absoluteFill,
-    },
+    // background: {
+    //     flex: 1,
+    //     flexWrap: 'wrap',
+    //     ...StyleSheet.absoluteFill,
+    // },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -98,5 +107,24 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
-    }
+    },
+    image: {
+        height: '100%',
+        width: '100%',
+    },
+    tinyLogo: {
+        height: 150,
+        width: 186,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: Dimensions.get("window").height / 2,
+    },
 });

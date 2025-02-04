@@ -109,7 +109,6 @@ export default function CarouselTest({ onBack }) {
     return (
         <View style={[styles.container, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
             <View style={[styles.mask, { height: CARD_HEIGHT * VISIBLE_COUNT }]}>
-                <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
                 <Animated.View style={[styles.carousel, animatedCarouselStyle]}>
                     {boardsLoop.map((board, index) => {
                         const isCentral = index >= boards.length && index < boards.length * 2;
@@ -131,11 +130,14 @@ export default function CarouselTest({ onBack }) {
                 </Animated.View>
             </View>
             {!animating && (
-                <PressableButton
-                    onPress={startAnimation}
-                    variant={"secondary"}
-                    title="Choisir une carte"
-                />
+                <>
+                    <PressableButton
+                        onPress={startAnimation}
+                        variant={"secondary"}
+                        title="Choisir une carte"
+                    />
+                    <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
+                </>
             )}
         </View>
     );
