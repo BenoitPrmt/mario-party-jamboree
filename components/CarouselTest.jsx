@@ -12,7 +12,6 @@ import Animated, {
 } from "react-native-reanimated";
 import PressableButton from "./PressableButton";
 import * as Haptics from 'expo-haptics';
-import { Audio} from "expo-av";
 
 const CARD_HEIGHT = 300;
 const ITEM_MARGIN = 10;
@@ -20,7 +19,7 @@ const ITEM_HEIGHT = CARD_HEIGHT + ITEM_MARGIN * 2;
 const VISIBLE_COUNT = 2;
 
 export default function CarouselTest({ onBack }) {
-    const { boards, setCurrentBoard } = useStore();
+    const { boards, setCurrentBoard, playSound } = useStore();
     const [animating, setAnimating] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -28,23 +27,6 @@ export default function CarouselTest({ onBack }) {
 
     const selectedScale = useSharedValue(1);
     const lastHapticIndex = useRef(null);
-
-    const [sound, setSound] = useState();
-
-    async function playSound() {
-        const { sound } = await Audio.Sound.createAsync( require('../assets/sounds/success.mp3')
-        );
-        setSound(sound);
-        await sound.playAsync();
-    }
-
-    useEffect(() => {
-        return sound
-            ? () => {
-                sound.unloadAsync();
-            }
-            : undefined;
-    }, [sound]);
 
     const triggerHapticFeedback = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -84,7 +66,7 @@ export default function CarouselTest({ onBack }) {
                 runOnJS(setSelectedIndex)(finalIndex);
                 runOnJS(setCurrentBoard)(finalIndex);
                 runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
-                runOnJS(playSound)();
+                runOnJS(playSound)('success');
                 selectedScale.value = withTiming(
                     1.1,
                     { duration: 500 },

@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {ImageBackground, StatusBar, StyleSheet, View, Image, Dimensions} from 'react-native';
+import {StatusBar, StyleSheet, View, Image, Dimensions} from 'react-native';
 import {useStore} from "./store/store";
 import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
@@ -13,12 +13,15 @@ import {Audio} from "expo-av";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const {boards, currentBoard, getRandom} = useStore();
+    const {boards, currentBoard, getRandom, playSound } = useStore();
     const [showRandomSelection, setShowRandomSelection] = useState(false);
     const [showMapsList, setShowMapsList] = useState(false);
 
+    const { preloadSounds } = useStore();
+
     useEffect(() => {
         getRandom()
+        preloadSounds().then(r => playSound('open'));
     }, []);
 
     const [loaded, error] = useFonts({
@@ -30,26 +33,6 @@ export default function App() {
         'ShinGoPro-Bold': require('./assets/fonts/AOTFShinGoProBold.otf'),
         'SuperMario256': require('./assets/fonts/SuperMario256.ttf'),
     });
-
-    useEffect(() => {
-        let sound: Audio.Sound;
-
-        async function playSound() {
-            const { sound: newSound } = await Audio.Sound.createAsync(
-                require("./assets/sounds/open.mp3")
-            );
-            sound = newSound;
-            await sound.playAsync();
-        }
-
-        playSound();
-
-        return () => {
-            if (sound) {
-                sound.unloadAsync();
-            }
-        };
-    }, []);
 
     useEffect(() => {
         if (loaded || error) {

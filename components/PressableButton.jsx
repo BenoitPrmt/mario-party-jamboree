@@ -1,27 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import {useEffect, useState} from "react";
-import {Audio} from "expo-av";
+import * as Haptics from 'expo-haptics';
+import {useStore} from "../store/store";
 
 const PressableButton = ({ variant, onPress, title }) => {
-    const [sound, setSound] = useState();
-
-    async function playSound() {
-        const { sound } = await Audio.Sound.createAsync( require('../assets/sounds/button.mp3')
-        );
-        setSound(sound);
-        await sound.playAsync();
-    }
-
-    useEffect(() => {
-        return sound
-            ? () => {
-                sound.unloadAsync();
-            }
-            : undefined;
-    }, [sound]);
+    const { playSound } = useStore();
 
     const handlePress = () => {
-        playSound();
+        playSound('button');
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         onPress();
     }
 
