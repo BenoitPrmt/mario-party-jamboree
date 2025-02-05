@@ -50,11 +50,15 @@ export default function CarouselTest({ setIsAnimated }) {
 
     const startAnimation = () => {
         if (animating) return;
+        let finalIndex;
+        do {
+            finalIndex = Math.floor(Math.random() * boards.length);
+        } while (finalIndex === selectedIndex);
+
         setAnimating(true);
         setSelectedIndex(null);
         selectedScale.value = 1;
 
-        const finalIndex = Math.floor(Math.random() * boards.length);
         const duration = 2500 + Math.floor(Math.random() * 1000);
         const cycles = 3;
         const targetOffset = -((cycles * boards.length + finalIndex) * ITEM_HEIGHT);
