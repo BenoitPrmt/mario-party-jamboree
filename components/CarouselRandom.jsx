@@ -18,7 +18,7 @@ const ITEM_MARGIN = 10;
 const ITEM_HEIGHT = CARD_HEIGHT + ITEM_MARGIN * 2;
 const VISIBLE_COUNT = 2;
 
-export default function CarouselTest({ setIsAnimated }) {
+export default function CarouselRandom({ setIsAnimated }) {
     const { boards, currentBoard, setCurrentBoard, playSound } = useStore();
     const [animating, setAnimating] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);

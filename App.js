@@ -4,7 +4,7 @@ import {useStore} from "./store/store";
 import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
 import {BlurView} from "expo-blur";
-import CarouselTest from "./components/CarouselTest";
+import CarouselRandom from "./components/CarouselRandom";
 import MapsList from "./components/MapsList";
 import PressableButton from "./components/PressableButton";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -57,7 +57,7 @@ export default function App() {
                     ) : (
                         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             {!showRandomSelection && <Image source={require('./assets/game-logo.png')} style={styles.tinyLogo}/>}
-                            <CarouselTest setIsAnimated={setShowRandomSelection}/>
+                            <CarouselRandom setIsAnimated={setShowRandomSelection}/>
                             {!showRandomSelection && <PressableButton variant={"primary"} title={"Voir les cartes"}
                                                                       onPress={() => setShowMapsList(true)}/>}
                         </View>
