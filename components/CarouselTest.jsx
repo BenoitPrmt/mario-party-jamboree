@@ -18,8 +18,8 @@ const ITEM_MARGIN = 10;
 const ITEM_HEIGHT = CARD_HEIGHT + ITEM_MARGIN * 2;
 const VISIBLE_COUNT = 2;
 
-export default function CarouselTest({ onBack }) {
-    const { boards, setCurrentBoard, playSound } = useStore();
+export default function CarouselTest({ setIsAnimated }) {
+    const { boards, currentBoard, setCurrentBoard, playSound } = useStore();
     const [animating, setAnimating] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -31,6 +31,10 @@ export default function CarouselTest({ onBack }) {
     const triggerHapticFeedback = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     };
+
+    useEffect(() => {
+        setIsAnimated(animating || (!animating && currentBoard != null));
+    }, [animating]);
 
     useAnimatedReaction(
         () => {
@@ -82,21 +86,30 @@ export default function CarouselTest({ onBack }) {
         transform: [{ translateY: translateY.value % (boards.length * ITEM_HEIGHT) }],
     }));
 
+    const handleBackPress = () => {
+        setCurrentBoard(null);
+        setSelectedIndex(null);
+        setAnimating(false);
+        setIsAnimated(false);
+    }
+
     return (
         <View style={[styles.container]}>
-            <View style={styles.mask}>
-                <Animated.View style={[styles.carousel, animatedCarouselStyle]}>
-                    {boards.map((board, index) => (
-                        <View key={board.id} style={selectedIndex === index ? [styles.item, styles.selectedItem] : styles.item}>
-                            <BoardCard board={board} />
-                        </View>
-                    ))}
-                </Animated.View>
-            </View>
+            {(animating || (!animating && currentBoard != null)) && (
+                <View style={styles.mask}>
+                    <Animated.View style={[styles.carousel, animatedCarouselStyle]}>
+                        {boards.map((board, index) => (
+                            <View key={board.id} style={selectedIndex === index ? [styles.item, styles.selectedItem] : styles.item}>
+                                <BoardCard board={board} />
+                            </View>
+                        ))}
+                    </Animated.View>
+                </View>
+            )}
 
             <View style={{ opacity: animating ? 0 : 1, marginTop: 10 }}>
                 <PressableButton onPress={startAnimation} variant={"secondary"} title="Choisir une carte" />
-                <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
+                {currentBoard != null && <PressableButton variant={"primary"} title={"Retour"} onPress={handleBackPress} />}
             </View>
         </View>
     );
