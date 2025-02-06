@@ -61,7 +61,7 @@ export default function CarouselRandom({ setIsAnimated }) {
 
         const duration = 2500 + Math.floor(Math.random() * 1000);
         const cycles = 3;
-        const targetOffset = -((cycles * boards.length + finalIndex) * ITEM_HEIGHT);
+        const targetOffset = -((cycles * boards.length + finalIndex) * ITEM_HEIGHT) + (ITEM_HEIGHT / 2);
 
         translateY.value = withTiming(
             targetOffset,
@@ -70,7 +70,7 @@ export default function CarouselRandom({ setIsAnimated }) {
                 easing: Easing.out(Easing.back(1)),
             },
             () => {
-                translateY.value = -(finalIndex * ITEM_HEIGHT);
+                translateY.value = -(finalIndex * ITEM_HEIGHT) + (ITEM_HEIGHT / 2);
                 runOnJS(setSelectedIndex)(finalIndex);
                 runOnJS(setCurrentBoard)(finalIndex);
                 runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
