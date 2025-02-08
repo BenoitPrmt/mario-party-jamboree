@@ -5,7 +5,7 @@ import { useStore } from "../store/store";
 import BoardCard from "./board/BoardCard";
 import PressableButton from "./PressableButton";
 
-const MapsList = ({ onBack }) => {
+const BoardsList = ({ onBack }) => {
     const { boards } = useStore();
     const [selectedMap, setSelectedMap] = useState(null);
     const scale = useSharedValue(1);
@@ -20,7 +20,6 @@ const MapsList = ({ onBack }) => {
 
     return (
         <View style={{ borderRadius: 10, paddingTop: 30 }}>
-            <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} sound={"secondary"} />
             <ScrollView style={{ borderRadius: 10 }} showsVerticalScrollIndicator={false}>
                 {selectedMap ? (
                     <Animated.View style={[styles.container, { transform: [{ scale: scale.value }] }]}>
@@ -33,8 +32,8 @@ const MapsList = ({ onBack }) => {
                             </Animated.View>
                         ))
                 )}
-
             </ScrollView>
+            <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} sound={"secondary"} />
         </View>
     );
 };
@@ -58,16 +57,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         borderRadius: 10,
     },
-    backButton: {
-        marginTop: 20,
-        padding: 10,
-        backgroundColor: 'red',
-        borderRadius: 5,
-    },
-    backText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
 });
 
-export default MapsList;
+export default BoardsList;

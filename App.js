@@ -5,7 +5,7 @@ import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
 import {BlurView} from "expo-blur";
 import CarouselRandom from "./components/CarouselRandom";
-import MapsList from "./components/MapsList";
+import BoardsList from "./components/BoardsList";
 import PressableButton from "./components/PressableButton";
 import { LinearGradient } from 'expo-linear-gradient';
 import {AppLoading} from "./components/AppLoading";
@@ -57,7 +57,7 @@ export default function App() {
                               experimentalBlurMethod="dimezisBlurView">
                         <StatusBar style="auto"/>
                         {showMapsList ? (
-                            <MapsList onBack={() => setShowMapsList(false)}/>
+                            <BoardsList onBack={() => setShowMapsList(false)}/>
                         ) : (
                             <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 {!showRandomSelection && (

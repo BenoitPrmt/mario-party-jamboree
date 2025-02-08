@@ -100,6 +100,20 @@ export default function CarouselRandom({ setIsAnimated }) {
         };
     });
 
+    const buttonsOpacity = useSharedValue(0);
+
+    useEffect(() => {
+        if (!animating) {
+            buttonsOpacity.value = withTiming(1, { duration: 300 });
+        } else {
+            buttonsOpacity.value = withTiming(0, { duration: 300 });
+        }
+    }, [animating]);
+
+    const animatedButtonsStyle = useAnimatedStyle(() => ({
+        opacity: buttonsOpacity.value,
+    }));
+
     const handleBackPress = () => {
         setCurrentBoard(null);
         setSelectedIndex(null);
@@ -115,7 +129,11 @@ export default function CarouselRandom({ setIsAnimated }) {
                         {bufferedBoards.map((board, index) => (
                             <View
                                 key={`${board.id}-${index}`}
-                                style={selectedIndex === index % boards.length ? [styles.item, styles.selectedItem] : styles.item}
+                                style={
+                                    selectedIndex === index % boards.length
+                                        ? [styles.item, styles.selectedItem]
+                                        : styles.item
+                                }
                             >
                                 <BoardCard board={board} />
                             </View>
@@ -124,10 +142,12 @@ export default function CarouselRandom({ setIsAnimated }) {
                 </View>
             )}
 
-            <View style={{ opacity: animating ? 0 : 1, marginTop: 10 }}>
+            <Animated.View style={[{ marginTop: 10, opacity: 0 }, animatedButtonsStyle]}>
                 <PressableButton onPress={startAnimation} variant={"secondary"} title="Choisir une carte" />
-                {currentBoard != null && <PressableButton variant={"primary"} title={"Retour"} onPress={handleBackPress} sound={"secondary"}/>}
-            </View>
+                {currentBoard != null && (
+                    <PressableButton variant={"primary"} title={"Retour"} onPress={handleBackPress} sound={"secondary"} />
+                )}
+            </Animated.View>
         </View>
     );
 }
