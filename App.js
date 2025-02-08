@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {StatusBar, StyleSheet, View, Image, Dimensions, ImageBackground} from 'react-native';
+import {StatusBar, StyleSheet, View, Image, Dimensions} from 'react-native';
 import {useStore} from "./store/store";
 import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
@@ -9,14 +9,15 @@ import MapsList from "./components/MapsList";
 import PressableButton from "./components/PressableButton";
 import { LinearGradient } from 'expo-linear-gradient';
 import {AppLoading} from "./components/AppLoading";
+import { AnimatedBackground } from './components/AnimatedBackground';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const {boards, currentBoard, playSound, preloadSounds } = useStore();
+    const {currentBoard, playSound, preloadSounds } = useStore();
     const [showRandomSelection, setShowRandomSelection] = useState(false);
     const [showMapsList, setShowMapsList] = useState(false);
-    
+
     useEffect(() => {
         preloadSounds().then(r => playSound('open'));
     }, []);
@@ -48,22 +49,34 @@ export default function App() {
                     colors={['#da0e51', '#fa4f79', '#fb6086', '#f6a0b5']}
                     style={styles.background}
                 />
-                <ImageBackground source={currentBoard ? currentBoard.boardView : null} resizeMode="cover" style={styles.image}>
-                    <BlurView intensity={40} tint="light" style={styles.blurContainer}
+                <AnimatedBackground
+                    source={showRandomSelection ? (currentBoard ? currentBoard.boardView : null) : null}
+                    style={styles.image}
+                >
+                <BlurView intensity={40} tint="light" style={styles.blurContainer}
                               experimentalBlurMethod="dimezisBlurView">
                         <StatusBar style="auto"/>
                         {showMapsList ? (
                             <MapsList onBack={() => setShowMapsList(false)}/>
                         ) : (
                             <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                {!showRandomSelection && <Image source={require('./assets/game-logo.png')} style={styles.tinyLogo}/>}
+                                {!showRandomSelection && (
+                                    <Image source={require('./assets/game-logo.png')}
+                                           style={styles.tinyLogo}
+                                    />
+                                )}
                                 <CarouselRandom setIsAnimated={setShowRandomSelection}/>
-                                {!showRandomSelection && <PressableButton variant={"primary"} title={"Voir les cartes"}
-                                                                          onPress={() => setShowMapsList(true)}/>}
+                                {!showRandomSelection && (
+                                    <PressableButton
+                                        variant={"primary"}
+                                        title={"Voir les cartes"}
+                                        onPress={() => setShowMapsList(true)}
+                                    />
+                                )}
                             </View>
                         )}
                     </BlurView>
-                </ImageBackground>
+                </AnimatedBackground>
             </View>
         </AppLoading>
     );
@@ -80,11 +93,6 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         alignItems: 'center',
     },
-    // background: {
-    //     flex: 1,
-    //     flexWrap: 'wrap',
-    //     ...StyleSheet.absoluteFill,
-    // },
     container: {
         flex: 1,
         alignItems: 'center',
