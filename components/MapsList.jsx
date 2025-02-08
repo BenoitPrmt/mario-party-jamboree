@@ -20,7 +20,7 @@ const MapsList = ({ onBack }) => {
 
     return (
         <View style={{ borderRadius: 10, paddingTop: 30 }}>
-            <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} />
+            <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} sound={"secondary"} />
             <ScrollView style={{ borderRadius: 10 }} showsVerticalScrollIndicator={false}>
                 {selectedMap ? (
                     <Animated.View style={[styles.container, { transform: [{ scale: scale.value }] }]}>

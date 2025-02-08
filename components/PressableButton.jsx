@@ -2,11 +2,20 @@ import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import * as Haptics from 'expo-haptics';
 import {useStore} from "../store/store";
 
-const PressableButton = ({ variant, onPress, title }) => {
+const PressableButton = ({ variant, onPress, title, sound = "primary" }) => {
     const { playSound } = useStore();
 
     const handlePress = () => {
-        playSound('button');
+        switch (sound) {
+            case 'primary':
+                playSound('buttonPrimary');
+                break;
+            case 'secondary':
+                playSound('buttonSecondary');
+                break;
+            default:
+                break;
+        }
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         onPress();
     }

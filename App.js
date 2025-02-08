@@ -12,12 +12,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const {boards, currentBoard, playSound } = useStore();
+    const {boards, currentBoard, playSound, preloadSounds } = useStore();
     const [showRandomSelection, setShowRandomSelection] = useState(false);
     const [showMapsList, setShowMapsList] = useState(false);
-
-    const { preloadSounds } = useStore();
-
+    
     useEffect(() => {
         preloadSounds().then(r => playSound('open'));
     }, []);
