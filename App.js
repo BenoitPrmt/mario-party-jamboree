@@ -8,6 +8,7 @@ import CarouselRandom from "./components/CarouselRandom";
 import MapsList from "./components/MapsList";
 import PressableButton from "./components/PressableButton";
 import { LinearGradient } from 'expo-linear-gradient';
+import {AppLoading} from "./components/AppLoading";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,28 +42,30 @@ export default function App() {
     }
 
     return (
-        <View style={[styles.container]}>
-            <LinearGradient
-                colors={['#da0e51', '#fa4f79', '#fb6086', '#f6a0b5']}
-                style={styles.background}
-            />
-            <ImageBackground source={currentBoard ? currentBoard.boardView : null} resizeMode="cover" style={styles.image}>
-                <BlurView intensity={40} tint="light" style={styles.blurContainer}
-                          experimentalBlurMethod="dimezisBlurView">
-                    <StatusBar style="auto"/>
-                    {showMapsList ? (
-                        <MapsList onBack={() => setShowMapsList(false)}/>
-                    ) : (
-                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            {!showRandomSelection && <Image source={require('./assets/game-logo.png')} style={styles.tinyLogo}/>}
-                            <CarouselRandom setIsAnimated={setShowRandomSelection}/>
-                            {!showRandomSelection && <PressableButton variant={"primary"} title={"Voir les cartes"}
-                                                                      onPress={() => setShowMapsList(true)}/>}
-                        </View>
-                    )}
-                </BlurView>
-            </ImageBackground>
-        </View>
+        <AppLoading>
+            <View style={[styles.container]}>
+                <LinearGradient
+                    colors={['#da0e51', '#fa4f79', '#fb6086', '#f6a0b5']}
+                    style={styles.background}
+                />
+                <ImageBackground source={currentBoard ? currentBoard.boardView : null} resizeMode="cover" style={styles.image}>
+                    <BlurView intensity={40} tint="light" style={styles.blurContainer}
+                              experimentalBlurMethod="dimezisBlurView">
+                        <StatusBar style="auto"/>
+                        {showMapsList ? (
+                            <MapsList onBack={() => setShowMapsList(false)}/>
+                        ) : (
+                            <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                {!showRandomSelection && <Image source={require('./assets/game-logo.png')} style={styles.tinyLogo}/>}
+                                <CarouselRandom setIsAnimated={setShowRandomSelection}/>
+                                {!showRandomSelection && <PressableButton variant={"primary"} title={"Voir les cartes"}
+                                                                          onPress={() => setShowMapsList(true)}/>}
+                            </View>
+                        )}
+                    </BlurView>
+                </ImageBackground>
+            </View>
+        </AppLoading>
     );
 }
 

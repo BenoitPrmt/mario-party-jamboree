@@ -1,10 +1,19 @@
+import React from 'react';
 import {Image, ImageBackground, StyleSheet, Text, View} from "react-native";
-import {BlurView} from "expo-blur";
+import { BlurView } from "expo-blur";
+import Animated, { FadeIn } from 'react-native-reanimated';
 
-const BoardCard = ({board}) => {
+const BoardCard = ({ board }) => {
     return (
-        <View style={styles.card}>
-            <Image source={board.boardView} alt={board.name} style={styles.cardImage}/>
+        <Animated.View
+            style={styles.card}
+            entering={FadeIn.duration(300)}
+        >
+            <Image
+                source={board.boardView}
+                style={styles.cardImage}
+                resizeMode="cover"
+            />
 
             <ImageBackground source={board.boardView} resizeMode="cover" style={styles.image}>
                 <BlurView intensity={100} tint="light" style={styles.blurContainer}
@@ -19,81 +28,48 @@ const BoardCard = ({board}) => {
                     </View>
                 </BlurView>
             </ImageBackground>
-        </View>
+        </Animated.View>
     );
 };
 
-export default BoardCard;
-
 const styles = StyleSheet.create({
     card: {
-        display: 'flex',
-        flexDirection: 'column',
+        width: '100%',
+        height: 300,
         borderRadius: 10,
         overflow: 'hidden',
-        boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
         backgroundColor: 'white',
-        height: 300,
-    },
-    cardContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        padding: 10,
-        height: 100
     },
     cardImage: {
-        overflow: 'hidden',
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
+        width: '100%',
         height: 200,
-        maxWidth: '100%'
+    },
+    blurContainer: {
+        height: 100,
+    },
+    cardContainer: {
+        padding: 10,
+        height: '100%',
+        justifyContent: 'space-around',
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        marginBottom: 10,
+    },
+    tinyLogo: {
+        height: 20,
+        width: 20,
     },
     cardTitle: {
         fontSize: 16,
         fontWeight: 'bold',
-        fontFamily: "ShinGoPro-Bold"
-    },
-    tinyLogo: {
-        height: 20,
-        width: 20
-    },
-    row: {
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'row',
-        gap: 10,
-        marginBottom: 10
+        fontFamily: "ShinGoPro-Bold",
     },
     description: {
-        fontFamily: "ShinGoPro-Light"
-    },
-
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        fontSize: 90,
-        fontWeight: 800
-    },
-    button: {
-        fontSize: 90,
-        fontWeight: 800
-    },
-    smallButton: {
-        fontSize: 20,
-        fontWeight: 800,
-        backgroundColor: 'blue',
-        color: 'white',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 30
-    },
-    iconButton: {
-        padding: 10,
-        backgroundColor: 'black'
+        fontFamily: "ShinGoPro-Light",
     },
 });
+
+export default React.memo(BoardCard);
