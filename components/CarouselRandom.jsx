@@ -19,7 +19,7 @@ const ITEM_HEIGHT = CARD_HEIGHT + ITEM_MARGIN * 2;
 const VISIBLE_COUNT = 2;
 const BUFFER_MULTIPLIER = 3;
 
-export default function CarouselRandom({ setIsAnimated }) {
+export default function CarouselRandom({ setIsAnimated, isDisplayed }) {
     const { boards, currentBoard, setCurrentBoard, playSound } = useStore();
     const [animating, setAnimating] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -144,10 +144,10 @@ export default function CarouselRandom({ setIsAnimated }) {
 
             <Animated.View style={[{ marginTop: 10, opacity: 0}, animatedButtonsStyle]}>
                 <PressableButton onPress={startAnimation} variant={"secondary"} title="Choisir une carte" />
-                {currentBoard != null && (
-                    <PressableButton variant={"primary"} title={"Retour"} onPress={handleBackPress} sound={"secondary"} />
+                {isDisplayed && (
+                    <PressableButton variant={"primary"} title={"Retour"} onPress={handleBackPress} sound={"secondary"} style={{ opacity: currentBoard != null ? 1 : 0 }} />
                 )}
-            </Animated.View>
+                </Animated.View>
         </View>
     );
 }

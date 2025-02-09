@@ -71,7 +71,7 @@ export default function App() {
                                     />
                                 )}
                                 <View style={{marginTop: 20, width: '100%'}}>
-                                    <CarouselRandom setIsAnimated={setShowRandomSelection}/>
+                                    <CarouselRandom setIsAnimated={setShowRandomSelection} isDisplayed={showRandomSelection}/>
                                     {!showRandomSelection && (
                                         <PressableButton
                                             variant={"primary"}

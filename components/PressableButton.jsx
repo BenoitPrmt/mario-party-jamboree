@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import * as Haptics from 'expo-haptics';
 import {useStore} from "../store/store";
 
-const PressableButton = ({ variant, onPress, title, sound = "primary" }) => {
+const PressableButton = ({ variant, onPress, title, sound = "primary", style = {} }) => {
     const { playSound } = useStore();
 
     const handlePress = () => {
@@ -21,7 +21,7 @@ const PressableButton = ({ variant, onPress, title, sound = "primary" }) => {
     }
 
     return (
-        <TouchableOpacity onPress={handlePress} style={[styles.button, styles[variant]]}>
+        <TouchableOpacity onPress={handlePress} style={[styles.button, styles[variant], style]}>
             <Text style={styles.buttonTitle}>{title}</Text>
         </TouchableOpacity>
     );
