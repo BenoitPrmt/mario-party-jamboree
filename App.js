@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {StatusBar, StyleSheet, View, Image, Dimensions} from 'react-native';
+import {StatusBar, StyleSheet, View, Image, Dimensions, Text, TouchableOpacity} from 'react-native';
 import {useStore} from "./store/store";
 import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen/build/index";
@@ -10,6 +10,7 @@ import PressableButton from "./components/PressableButton";
 import {LinearGradient} from 'expo-linear-gradient';
 import {AppLoading} from "./components/AppLoading";
 import {AnimatedBackground} from './components/AnimatedBackground';
+import AboutModal from "./components/about/AboutModal";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -17,6 +18,7 @@ export default function App() {
     const {currentBoard, playSound, preloadSounds, playBackgroundMusic} = useStore();
     const [showRandomSelection, setShowRandomSelection] = useState(false);
     const [showMapsList, setShowMapsList] = useState(false);
+    const [showAboutModal, setShowAboutModal] = useState(false);
 
     useEffect(() => {
         preloadSounds().then(() => {
@@ -62,27 +64,65 @@ export default function App() {
                         {showMapsList ? (
                             <BoardsList onBack={() => setShowMapsList(false)}/>
                         ) : (
+
                             <View style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
                                 width: '100%',
+                                height: '95%'
                             }}>
-                                {!showRandomSelection && (
-                                    <Image source={require('./assets/game-logo.png')}
-                                           style={styles.tinyLogo}
-                                    />
-                                )}
-                                <View style={{marginTop: 20, width: '100%'}}>
-                                    <CarouselRandom setIsAnimated={setShowRandomSelection} isDisplayed={showRandomSelection}/>
+                                {!showRandomSelection &&
+                                    <View style={{height: Dimensions.get('window').height / 4 }}/>}
+
+                                <View style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '100%'
+                                }}>
                                     {!showRandomSelection && (
-                                        <PressableButton
-                                            variant={"primary"}
-                                            title={"Voir les cartes"}
-                                            onPress={() => setShowMapsList(true)}
+                                        <Image source={require('./assets/game-logo.png')}
+                                               style={styles.tinyLogo}
                                         />
                                     )}
+                                    <View style={{marginTop: 20, width: '100%'}}>
+                                        <CarouselRandom setIsAnimated={setShowRandomSelection}
+                                                        isDisplayed={showRandomSelection}/>
+                                        {!showRandomSelection && (
+                                            <PressableButton
+                                                variant={"secondary"}
+                                                title={"Voir les cartes"}
+                                                onPress={() => setShowMapsList(true)}
+                                            />
+                                        )}
+                                    </View>
                                 </View>
+
+                                {!showRandomSelection && (
+                                    <View style={{
+                                        flex: 1,
+                                        display: 'flex',
+                                        justifyContent: 'flex-end',
+                                        width: '100%'
+                                    }}>
+
+                                        <TouchableOpacity onPress={() => setShowAboutModal(true)} style={{
+                                            padding: 10,
+                                            borderRadius: 5,
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: '100%',
+                                        }}>
+                                            <Text style={{
+                                                color: 'white',
+                                                fontFamily: 'ShinGoPro-Bold',
+                                                fontSize: 18,
+                                                marginTop: 20
+                                            }}>À propos</Text>
+                                        </TouchableOpacity>
+
+                                        <AboutModal visible={showAboutModal} onClose={() => setShowAboutModal(false)}/>
+                                    </View>
+                                )}
                             </View>
                         )}
                     </BlurView>

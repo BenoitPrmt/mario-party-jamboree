@@ -34,7 +34,7 @@ const BoardsList = ({ onBack }) => {
                 )}
             </ScrollView>
             <View>
-                <PressableButton variant={"primary"} title={"Retour"} onPress={onBack} sound={"secondary"} />
+                <PressableButton variant={"secondary"} title={"Retour"} onPress={onBack} sound={"secondary"} />
             </View>
         </View>
     );

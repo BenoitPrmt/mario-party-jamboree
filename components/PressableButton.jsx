@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     primary: {
-        backgroundColor: '#e2b325',
-        boxShadow: '0 0 0 2px #e2b325, inset 0 0 0 1px #ffe688'
-    },
-    secondary: {
         backgroundColor: '#da0e51',
         boxShadow: '0 0 0 2px #da0e51, inset 0 0 0 1px #ff678c'
+    },
+    secondary: {
+        backgroundColor: '#e2b325',
+        boxShadow: '0 0 0 2px #e2b325, inset 0 0 0 1px #ffe688'
     },
     buttonTitle: {
         fontWeight: 800,

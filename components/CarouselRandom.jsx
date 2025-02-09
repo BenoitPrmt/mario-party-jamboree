@@ -143,9 +143,9 @@ export default function CarouselRandom({ setIsAnimated, isDisplayed }) {
             )}
 
             <Animated.View style={[{ marginTop: 10, opacity: 0}, animatedButtonsStyle]}>
-                <PressableButton onPress={startAnimation} variant={"secondary"} title="Choisir une carte" />
+                <PressableButton onPress={startAnimation} variant={"primary"} title="Choisir une carte" />
                 {isDisplayed && (
-                    <PressableButton variant={"primary"} title={"Retour"} onPress={handleBackPress} sound={"secondary"} style={{ opacity: currentBoard != null ? 1 : 0 }} />
+                    <PressableButton variant={"secondary"} title={"Retour"} onPress={handleBackPress} sound={"secondary"} style={{ opacity: currentBoard != null ? 1 : 0 }} />
                 )}
                 </Animated.View>
         </View>
