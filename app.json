@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "superMarioRandom",
-    "slug": "superMarioRandom",
+    "name": "marioPartyRandom",
+    "slug": "marioPartyRandom",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/game-logo.png",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#da0e4f"
+      "backgroundColor": "#fa4f79"
     },
     "ios": {
       "supportsTablet": true
