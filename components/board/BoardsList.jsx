@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
 import Animated, { FadeInDown, FadeOutUp, useSharedValue, withSpring } from 'react-native-reanimated';
-import { useStore } from "../store/store";
-import BoardCard from "./board/BoardCard";
-import PressableButton from "./PressableButton";
+import { useStore } from "../../store/store";
+import BoardCard from "./BoardCard";
+import PressableButton from "../button/PressableButton";
 
 const BoardsList = ({ onBack }) => {
     const { boards } = useStore();

@@ -1,6 +1,6 @@
 import React from "react";
 import {Modal, View, Text, StyleSheet, TouchableOpacity, Linking} from "react-native";
-import PressableButton from "../PressableButton";
+import PressableButton from "../button/PressableButton";
 import LinkedInIcon from "../icons/LinkedInIcon";
 import GitHubIcon from "../icons/GitHubIcon";
 import GlobeIcon from "../icons/GlobeIcon";

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { useStore } from "../store/store";
-import BoardCard from "./board/BoardCard";
+import { useStore } from "../../store/store";
+import BoardCard from "../board/BoardCard";
 import Animated, {
     Easing,
     runOnJS,
@@ -10,7 +10,7 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
-import PressableButton from "./PressableButton";
+import PressableButton from "../button/PressableButton";
 import * as Haptics from "expo-haptics";
 
 const CARD_HEIGHT = 300;

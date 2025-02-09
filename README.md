@@ -7,23 +7,23 @@ Mario Party Random est une application mobile développée en React Native avec 
 L'application vous permet de choisir un plateau de jeu aléatoire parmi les 7 disponibles.
 
 
-## ✨ Fonctionnalités attendues
+## ✨ Fonctionnalités
 - Choisir un plateau de jeu aléatoire parmi les 7 disponibles
 - Voir tous les plateaux de jeu disponibles
 - Avoir une UX agréable et bien pensée
 - Avoir un design qui rappelle l'univers de Mario Party
+- Des animations et des transitions fluides
+- Des sons pour une expérience immersive (roulette, boutons, sélection de plateau, ...)
+- Retours haptiques aux actions clés (boutons, sélection de plateau, ...)
 
 ## 📁 Architecture du projet
 
 Voici l'architecture des fichiers du projet
 ```bash
 mario-party-random/
-├── app.json
-├── package.json
-├── README.md
 ├── index.js
 ├── App.js
-├── assets/
+├── assets/ # Contient les assets du projet (images, sons, polices)
 │   ├── adaptive-icon.png
 │   ├── favicon.png
 │   ├── game-logo.png
@@ -32,27 +32,31 @@ mario-party-random/
 │   ├── board-view/
 │   ├── fonts/
 │   └── sounds/
-├── constants/
+├── constants/ # Contient les constantes du projet (plateaux de jeu, sons)
 │   ├── boards.js
 │   └── sounds.js
 ├── store/
-│   └── store.js
+│   └── store.js # Store Zustand pour la gestion de l'état global
 ├── components/
 │   ├── AppLoading.jsx
 │   ├── AnimatedBackground.jsx
-│   ├── CarouselRandom.jsx
-│   ├── BoardsList.jsx
-│   ├── PressableButton.jsx
 │   ├── about/
-│   │   └── AboutModal.jsx
+│   │   └── AboutModal.jsx # Modal d'infos sur l'application
 │   ├── board/
-│   │   └── BoardCard.jsx
-│   └── icons/
+│   │   ├── BoardsList.jsx # Liste des plateaux de jeu
+│   │   └── BoardCard.jsx # Carte d'infos d'un plateau de jeu
+│   ├── button/
+│   │   └── PressableButton.jsx # Bouton dans le style de Mario Party 
+│   ├── carousel/
+│   │   └── CarouselRandom.jsx # Carousel pour choisir un plateau de jeu aléatoire
+│   └── icons/ # Icônes SVG
+│       ├── GitHubIcon.jsx
+│       ├── GlobeIcon.jsx
 │       └── LinkedInIcon.jsx
 ├── hooks/
-│   └── usePreloadSounds.js
+│   └── usePreloadSounds.js # Hook pour précharger les sons
 └── utils/
-    └── selectRandom.js
+    └── selectRandom.js # Fonction pour choisir un élément aléatoire dans un tableau
 ```
 
 ## ⚡️️ Prérequis

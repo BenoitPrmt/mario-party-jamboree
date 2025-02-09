@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import * as Haptics from 'expo-haptics';
-import {useStore} from "../store/store";
+import {useStore} from "../../store/store";
 
 const PressableButton = ({ variant, onPress, title, sound = "primary", style = {} }) => {
     const { playSound } = useStore();
