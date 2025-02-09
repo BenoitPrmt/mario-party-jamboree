@@ -15,6 +15,7 @@ L'application vous permet de choisir un plateau de jeu aléatoire parmi les 7 di
 
 ```bash
 mario-party-random/
+├── app.json
 ├── package.json
 ├── README.md
 ├── index.js
@@ -39,10 +40,16 @@ mario-party-random/
 │   ├── CarouselRandom.jsx
 │   ├── BoardsList.jsx
 │   ├── PressableButton.jsx
-│   └── board/
-│       └── BoardCard.jsx
-└── hooks/
-    └── usePreloadSounds.js
+│   ├── about/
+│   │   └── AboutModal.jsx
+│   ├── board/
+│   │   └── BoardCard.jsx
+│   └── icons/
+│       └── LinkedInIcon.jsx
+├── hooks/
+│   └── usePreloadSounds.js
+└── utils/
+    └── selectRandom.js
 ```
 
 ## ⚡️️ Prérequis
