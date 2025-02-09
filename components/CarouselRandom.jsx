@@ -11,7 +11,7 @@ import Animated, {
     withTiming,
 } from "react-native-reanimated";
 import PressableButton from "./PressableButton";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 
 const CARD_HEIGHT = 300;
 const ITEM_MARGIN = 10;
@@ -26,9 +26,12 @@ export default function CarouselRandom({ setIsAnimated, isDisplayed }) {
 
     const translateY = useSharedValue(0);
     const selectedScale = useSharedValue(1);
-    const lastHapticIndex = useRef(null);
 
-    const bufferedBoards = Array(BUFFER_MULTIPLIER).fill(boards).flat();
+    const lastTickValue = useSharedValue(translateY.value);
+
+    const bufferedBoards = Array(BUFFER_MULTIPLIER)
+        .fill(boards)
+        .flat();
     const middleSetIndex = Math.floor(BUFFER_MULTIPLIER / 2) * boards.length;
 
     const triggerHapticFeedback = () => {
@@ -40,14 +43,12 @@ export default function CarouselRandom({ setIsAnimated, isDisplayed }) {
     }, [animating]);
 
     useAnimatedReaction(
-        () => {
-            return Math.floor(-translateY.value / ITEM_HEIGHT) % boards.length;
-        },
-        (currentIndex, previousIndex) => {
-            if (currentIndex !== previousIndex && currentIndex !== lastHapticIndex.current) {
-                lastHapticIndex.current = currentIndex;
+        () => translateY.value,
+        (currentValue) => {
+            if (Math.abs(currentValue - lastTickValue.value) >= ITEM_HEIGHT) {
+                lastTickValue.value = currentValue;
                 runOnJS(triggerHapticFeedback)();
-                // runOnJS(playSound)('tick');
+                runOnJS(playSound)("tick");
             }
         }
     );
@@ -68,7 +69,9 @@ export default function CarouselRandom({ setIsAnimated, isDisplayed }) {
 
         const duration = 2500 + Math.floor(Math.random() * 1000);
         const cycles = 2;
-        const targetOffset = -((middleSetIndex + cycles * boards.length + finalIndex) * ITEM_HEIGHT) + ITEM_HEIGHT / 2;
+        const targetOffset =
+            -((middleSetIndex + cycles * boards.length + finalIndex) * ITEM_HEIGHT) +
+            ITEM_HEIGHT / 2;
 
         translateY.value = withTiming(
             targetOffset,
@@ -80,8 +83,8 @@ export default function CarouselRandom({ setIsAnimated, isDisplayed }) {
                 runOnJS(setSelectedIndex)(finalIndex);
                 runOnJS(setCurrentBoard)(finalIndex);
                 runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
-                runOnJS(playSound)('success');
-                runOnJS(playSound)('particules');
+                runOnJS(playSound)("success");
+                runOnJS(playSound)("particules");
                 selectedScale.value = withTiming(
                     1.1,
                     { duration: 500 },
@@ -142,12 +145,18 @@ export default function CarouselRandom({ setIsAnimated, isDisplayed }) {
                 </View>
             )}
 
-            <Animated.View style={[{ marginTop: 10, opacity: 0}, animatedButtonsStyle]}>
+            <Animated.View style={[{ marginTop: 10, opacity: 0 }, animatedButtonsStyle]}>
                 <PressableButton onPress={startAnimation} variant={"primary"} title="Choisir une carte" />
                 {isDisplayed && (
-                    <PressableButton variant={"secondary"} title={"Retour"} onPress={handleBackPress} sound={"secondary"} style={{ opacity: currentBoard != null ? 1 : 0 }} />
+                    <PressableButton
+                        variant={"secondary"}
+                        title={"Retour"}
+                        onPress={handleBackPress}
+                        sound={"secondary"}
+                        style={{ opacity: currentBoard != null ? 1 : 0 }}
+                    />
                 )}
-                </Animated.View>
+            </Animated.View>
         </View>
     );
 }
@@ -162,7 +171,7 @@ const styles = StyleSheet.create({
         height: CARD_HEIGHT * VISIBLE_COUNT,
     },
     carousel: {
-        position: 'relative',
+        position: "relative",
     },
     item: {
         height: CARD_HEIGHT,
