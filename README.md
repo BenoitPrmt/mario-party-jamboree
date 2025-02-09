@@ -1,11 +1,11 @@
 # Mario Party Random 🍄
+![Roulette de choix aléatoire](/assets/docs/banner.PNG)
 
 ## 📱 Contexte
 Mario Party Random est une application mobile développée en React Native avec Expo.
 
 L'application vous permet de choisir un plateau de jeu aléatoire parmi les 7 disponibles.
 
-![Roulette de choix aléatoire](/assets/docs/illustration.PNG)
 
 ## ✨ Fonctionnalités attendues
 - Choisir un plateau de jeu aléatoire parmi les 7 disponibles
