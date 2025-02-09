@@ -1,5 +1,5 @@
 # Mario Party Random 🍄
-![Roulette de choix aléatoire](/assets/docs/banner.PNG)
+![Roulette de choix aléatoire](/assets/docs/banner.png)
 
 ## 📱 Contexte
 Mario Party Random est une application mobile développée en React Native avec Expo.
