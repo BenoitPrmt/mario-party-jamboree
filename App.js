@@ -63,13 +63,14 @@ export default function App() {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                width: '100%',
                             }}>
                                 {!showRandomSelection && (
                                     <Image source={require('./assets/game-logo.png')}
                                            style={styles.tinyLogo}
                                     />
                                 )}
-                                <View style={{marginTop: 20}}>
+                                <View style={{marginTop: 20, width: '100%'}}>
                                     <CarouselRandom setIsAnimated={setShowRandomSelection}/>
                                     {!showRandomSelection && (
                                         <PressableButton

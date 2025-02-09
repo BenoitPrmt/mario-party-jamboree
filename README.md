@@ -9,6 +9,40 @@ L'application vous permet de choisir un plateau de jeu aléatoire parmi les 7 di
 - Choisir un plateau de jeu aléatoire parmi les 7 disponibles
 - Voir tous les plateaux de jeu disponibles
 
+## 📁 Architecture du projet
+
+```bash
+mario-party-random/
+├── package.json
+├── README.md
+├── index.js
+├── App.js
+├── assets/
+│   ├── adaptive-icon.png
+│   ├── favicon.png
+│   ├── game-logo.png
+│   ├── splash-icon.png
+│   ├── board-icons/
+│   ├── board-view/
+│   ├── fonts/
+│   └── sounds/
+├── constants/
+│   ├── boards.js
+│   └── sounds.js
+├── store/
+│   └── store.js
+├── components/
+│   ├── AppLoading.jsx
+│   ├── AnimatedBackground.jsx
+│   ├── CarouselRandom.jsx
+│   ├── BoardsList.jsx
+│   ├── PressableButton.jsx
+│   └── board/
+│       └── BoardCard.jsx
+└── hooks/
+    └── usePreloadSounds.js
+```
+
 ## ⚡️️ Prérequis
 Vous devez avoir NodeJS en version 20 ou supérieure installé sur votre machine.
 
