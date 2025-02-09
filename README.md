@@ -10,9 +10,12 @@ L'application vous permet de choisir un plateau de jeu aléatoire parmi les 7 di
 ## ✨ Fonctionnalités attendues
 - Choisir un plateau de jeu aléatoire parmi les 7 disponibles
 - Voir tous les plateaux de jeu disponibles
+- Avoir une UX agréable et bien pensée
+- Avoir un design qui rappelle l'univers de Mario Party
 
 ## 📁 Architecture du projet
 
+Voici l'architecture des fichiers du projet
 ```bash
 mario-party-random/
 ├── app.json
@@ -72,5 +75,7 @@ Lancez le projet :
 ```bash
 npm run start
 ```
+
+Ensuite, vous pouvez tester le projet sur votre téléphone en scannant le QR Code et en testant via l'application Expo Go.
 
 Développé par Benoit Parmentier - contact@benoitparmentier.fr
