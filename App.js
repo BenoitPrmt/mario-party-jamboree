@@ -14,12 +14,15 @@ import {AnimatedBackground} from './components/AnimatedBackground';
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const {currentBoard, playSound, preloadSounds} = useStore();
+    const {currentBoard, playSound, preloadSounds, playBackgroundMusic} = useStore();
     const [showRandomSelection, setShowRandomSelection] = useState(false);
     const [showMapsList, setShowMapsList] = useState(false);
 
     useEffect(() => {
-        preloadSounds().then(r => playSound('open'));
+        preloadSounds().then(() => {
+            playSound('open');
+            playBackgroundMusic();
+        });
     }, []);
 
     const [loaded, error] = useFonts({

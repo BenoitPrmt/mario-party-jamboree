@@ -1,4 +1,5 @@
 export const SOUND_FILES = {
+    background: require('../assets/sounds/background.mp3'),
     buttonPrimary: require('../assets/sounds/button-primary.wav'),
     buttonSecondary: require('../assets/sounds/button-secondary.wav'),
     buttonBack: require('../assets/sounds/back.wav'),

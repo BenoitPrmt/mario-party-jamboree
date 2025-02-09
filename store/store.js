@@ -53,4 +53,29 @@ export const useStore = create((set, get) => ({
             await sound.replayAsync();
         }
     },
+
+    playBackgroundMusic: async () => {
+        const { sounds } = get();
+
+        if (sounds['backgroundMusic']) {
+            await sounds['backgroundMusic'].setIsLoopingAsync(true);
+            await sounds['backgroundMusic'].setVolumeAsync(0.2);
+            await sounds['backgroundMusic'].playAsync();
+            return;
+        }
+
+        const { sound } = await Audio.Sound.createAsync(
+            SOUND_FILES['background'],
+            {
+                isLooping: true,
+                volume: 0.1,
+                shouldPlay: true
+            }
+        );
+
+        set((state) => ({
+            sounds: { ...state.sounds, backgroundMusic: sound }
+        }));
+    }
+
 }));
