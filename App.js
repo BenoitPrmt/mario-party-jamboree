@@ -7,14 +7,14 @@ import {BlurView} from "expo-blur";
 import CarouselRandom from "./components/CarouselRandom";
 import BoardsList from "./components/BoardsList";
 import PressableButton from "./components/PressableButton";
-import { LinearGradient } from 'expo-linear-gradient';
+import {LinearGradient} from 'expo-linear-gradient';
 import {AppLoading} from "./components/AppLoading";
-import { AnimatedBackground } from './components/AnimatedBackground';
+import {AnimatedBackground} from './components/AnimatedBackground';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-    const {currentBoard, playSound, preloadSounds } = useStore();
+    const {currentBoard, playSound, preloadSounds} = useStore();
     const [showRandomSelection, setShowRandomSelection] = useState(false);
     const [showMapsList, setShowMapsList] = useState(false);
 
@@ -53,26 +53,32 @@ export default function App() {
                     source={showRandomSelection ? (currentBoard ? currentBoard.boardView : null) : null}
                     style={styles.image}
                 >
-                <BlurView intensity={40} tint="light" style={styles.blurContainer}
+                    <BlurView intensity={40} tint="light" style={styles.blurContainer}
                               experimentalBlurMethod="dimezisBlurView">
                         <StatusBar style="auto"/>
                         {showMapsList ? (
                             <BoardsList onBack={() => setShowMapsList(false)}/>
                         ) : (
-                            <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
                                 {!showRandomSelection && (
                                     <Image source={require('./assets/game-logo.png')}
                                            style={styles.tinyLogo}
                                     />
                                 )}
-                                <CarouselRandom setIsAnimated={setShowRandomSelection}/>
-                                {!showRandomSelection && (
-                                    <PressableButton
-                                        variant={"primary"}
-                                        title={"Voir les cartes"}
-                                        onPress={() => setShowMapsList(true)}
-                                    />
-                                )}
+                                <View style={{marginTop: 20}}>
+                                    <CarouselRandom setIsAnimated={setShowRandomSelection}/>
+                                    {!showRandomSelection && (
+                                        <PressableButton
+                                            variant={"primary"}
+                                            title={"Voir les cartes"}
+                                            onPress={() => setShowMapsList(true)}
+                                        />
+                                    )}
+                                </View>
                             </View>
                         )}
                     </BlurView>

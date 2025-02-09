@@ -32,12 +32,13 @@ export default PressableButton;
 const styles = StyleSheet.create({
     button: {
         borderRadius: 50,
-        margin: 10,
+        marginVertical: 10,
         display: 'inline-block',
         paddingHorizontal: 20,
         paddingVertical: 5,
         fontSize: '19px',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%',
     },
     primary: {
         backgroundColor: '#e2b325',
