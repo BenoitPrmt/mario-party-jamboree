@@ -178,12 +178,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginVertical: 10,
+        borderColor: "transparent",
+        borderWidth: 4,
+        borderRadius: 10,
+        overflow: "hidden"
     },
     selectedItem: {
         borderColor: "#f9ed0a",
-        borderWidth: 4,
-        borderRadius: 10,
-        overflow: "hidden",
         zIndex: 999,
     }
 });
